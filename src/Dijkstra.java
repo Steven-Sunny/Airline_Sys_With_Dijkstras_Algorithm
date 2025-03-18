@@ -5,7 +5,7 @@ public class Dijkstra {
         // Tracks the shortest known distance from the start city to each city (initialized later with inf distance
         // for all cities except start, which has 0)
         Map<String, Double> distances = new HashMap<>();
-        // Used later on for path reconstruction
+        // Used later on for path reconstruction; holds the optimal path
         Map<String, Flight> previousFlights = new HashMap<>();
         // A priority queue for always processing the city with the smallest known distance first, the most important
         // part of the method
@@ -61,25 +61,37 @@ public class Dijkstra {
             }
         }
 
+        // Calls reconstruct path for building a list of flights that get from start to end cities
         List<Flight> path = reconstructPath(previousFlights, start, end);
+        // Returns a pathing for the shortest path if there is a potential path
         double total;
         if(path != null){
             total = distances.get(end);
         }else{
+            // Return 0 if the path is empty (The distance is 0)
             total = 0.0;
         }
+        // Returns a pathResult object that includes a lists of flights you need to take to get to your destination
         return new PathResult(path, total);
     }
 
-    //Helper method for path reconstruction?
+    // Helper method for path reconstruction; builds the path backwards from end to start using previousFlights
     private static List<Flight> reconstructPath(Map<String, Flight> previousFlights, String start, String end) {
+        // List for Flights, stores the flights needed to reach the end city
         List<Flight> path = new ArrayList<>();
+        // Stores the first city needed to reconstruct the path end to start
         String currentCity = end;
+        // Loops through all cities in previousFlights
         while (previousFlights.containsKey(currentCity)) {
+            // Get the flight object from previousFlights
             Flight flight = previousFlights.get(currentCity);
+            // Add the flight obtained to the list of path
             path.addFirst(flight);
+            // Get the next starting city using the current city; set current city to next city
             currentCity = flight.getSource();
         }
+
+        // If path is empty (no path found) return null; else return the list of the cities on the path.
         if (path.isEmpty() || !path.getFirst().getSource().equals(start)){
             return null;
         }else {
@@ -87,17 +99,24 @@ public class Dijkstra {
         }
     }
 
-    // Helper Class for nodes in the graph?
+    // Helper class for cities in the graph; represents a city (just a convenient object format) and its distance
+    // from the original starting city
     static class Node {
         String city;
+        // Distance stores the currently known shortest distance from the start city
         double distance;
+        // Constructors to build a Node instance
         Node(String city, double distance) { this.city = city; this.distance = distance; }
     }
 
-    // Helper class for something?
+    // Helper class that acts as a data container for the shortest path that was found
     public static class PathResult {
+        // An ordered list that stores the shortest list of flights needed to get to the end city
+        // This is a path that was reconstructed by the reconstructPath method, ensuring it has the shortest distance
         public final List<Flight> flights;
+        // The final sum of all the weights in the path
         public final double total;
+        // Constructors to build a PathResult instance
         PathResult(List<Flight> flights, double total) { this.flights = flights; this.total = total; }
     }
 }
