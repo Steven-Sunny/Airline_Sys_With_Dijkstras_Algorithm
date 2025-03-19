@@ -14,7 +14,7 @@ public class Main {
             System.out.print("Choose option: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();  // take in newline
 
             switch (choice) {
                 case 1:
@@ -83,16 +83,17 @@ public class Main {
 
         System.out.println("\nBest Route (" + criteria + "):");
         for (Flight flight : currentRoute.flights) {
-            System.out.printf("%s -> %s (Cost: $%.2f, Duration: %d min, Seats Available: %d)%n",
-                    flight.getSource(),
-                    flight.getDestination(),
-                    flight.getCost(),
-                    flight.getDuration(),
-                    flight.getAvailableSeats());
+            System.out.println(
+                    flight.getSource() + " -> " + flight.getDestination() +
+                            " (Cost: $" + String.format("%.2f", flight.getCost()) +
+                            ", Duration: " + flight.getDuration() + " min, Seats Available: " +
+                            flight.getAvailableSeats() + ")");
+
         }
-        System.out.printf("Total %s: %s%n",
-                criteria.equals("cost") ? "Cost" : "Duration",
-                criteria.equals("cost") ? "$" + currentRoute.total : currentRoute.total + " minutes");
+        System.out.println("Total " +
+                (criteria.equals("cost") ? "Cost" : "Duration") + ": " +
+                (criteria.equals("cost") ? "$" + currentRoute.total : currentRoute.total + " minutes"));
+
     }
 
     private static void bookSeats() {
@@ -116,14 +117,13 @@ public class Main {
         for (Flight flight : currentRoute.flights) {
             boolean success = flight.bookSeat();
             if (success) {
-                System.out.printf("✓ Booked %s->%s%n",
-                        flight.getSource(), flight.getDestination());
+                System.out.println("✓ Booked " + flight.getSource() + " -> " + flight.getDestination());
             } else {
                 fullBooking = false;
                 flight.addToQueue(new BookingRequest(customer, System.currentTimeMillis()));
-                System.out.printf("✗ Added to waitlist %s->%s (Available: %d)%n",
-                        flight.getSource(), flight.getDestination(),
-                        flight.getAvailableSeats());
+                System.out.println("✗ Added to waitlist " + flight.getSource() + " -> " + flight.getDestination() +
+                        " (Available: " + flight.getAvailableSeats() + ")");
+
             }
         }
 
