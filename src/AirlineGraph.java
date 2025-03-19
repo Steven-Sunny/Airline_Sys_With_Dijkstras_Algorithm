@@ -3,8 +3,8 @@ import java.util.*;
 public class AirlineGraph {
     private final Map<String, List<Flight>> adjacencyList = new HashMap<>();
 
-    public void addFlight(String source, String destination, double cost, int duration, int seats) {
-        Flight flight = new Flight(source, destination, cost, duration, seats);
+    public void addFlight(String source, String destination, double cost, int duration) {
+        Flight flight = new Flight(source, destination, cost, duration);
         adjacencyList.computeIfAbsent(source, k -> new ArrayList<>()).add(flight);
         //Adds a new flight attached to a destination, if there are no flights, it adds a new arraylist
         //using computeIfAbsent, a method of Map class in Java

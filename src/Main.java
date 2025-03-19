@@ -1,7 +1,7 @@
 import java.util.*;
 public class Main {
-    private static AirlineGraph graph = new AirlineGraph();
-    private static Scanner scanner = new Scanner(System.in);
+    private final static AirlineGraph graph = new AirlineGraph();
+    private final static Scanner scanner = new Scanner(System.in);
     private static Dijkstra.PathResult currentRoute;
     public static void main(String[] args) {
 
@@ -50,11 +50,9 @@ public class Main {
         System.out.print("Duration (minutes): ");
         int duration = scanner.nextInt();
 
-        System.out.print("Available Seats: ");
-        int seats = scanner.nextInt();
         scanner.nextLine();  // Consume newline
 
-        graph.addFlight(source, destination, cost, duration, seats);
+        graph.addFlight(source, destination, cost, duration);
         System.out.println("Flight added successfully!");
     }
 
@@ -86,8 +84,7 @@ public class Main {
             System.out.println(
                     flight.getSource() + " -> " + flight.getDestination() +
                             " (Cost: $" + String.format("%.2f", flight.getCost()) +
-                            ", Duration: " + flight.getDuration() + " min, Seats Available: " +
-                            flight.getAvailableSeats() + ")");
+                            ", Duration: " + flight.getDuration() + " min, Seats Available: " + ")");
 
         }
         System.out.println("Total " +
@@ -105,32 +102,16 @@ public class Main {
         System.out.print("\nEnter customer name: ");
         String customer = scanner.nextLine().trim();
 
-        System.out.print("Number of seats: ");
-        int seats = scanner.nextInt();
-        // Consume newline
         scanner.nextLine();
 
         String bookingRef = "BOOKING-" + System.currentTimeMillis();
-        boolean fullBooking = true;
 
         System.out.println("\nBooking Status (" + bookingRef + "):");
         for (Flight flight : currentRoute.flights) {
-            boolean success = flight.bookSeat();
-            if (success) {
-                System.out.println("✓ Booked " + flight.getSource() + " -> " + flight.getDestination());
-            } else {
-                fullBooking = false;
-                flight.addToQueue(new BookingRequest(customer, System.currentTimeMillis()));
-                System.out.println("✗ Added to waitlist " + flight.getSource() + " -> " + flight.getDestination() +
-                        " (Available: " + flight.getAvailableSeats() + ")");
-
-            }
+            flight.bookSeat(new BookingRequest(customer, System.currentTimeMillis()));
+            System.out.println("✓ Booked " + flight.getSource() + " -> " + flight.getDestination());
         }
 
-        if (fullBooking) {
-            System.out.println("\nAll flights booked successfully!");
-        } else {
-            System.out.println("\nPartial booking completed. Some flights are waitlisted.");
-        }
+        System.out.println("\nAll flights booked successfully!");
     }
 }
