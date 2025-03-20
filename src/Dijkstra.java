@@ -24,7 +24,7 @@ public class Dijkstra {
         // This is the main Dijkstra algorithm
         // Priority queue pq drives this algorithm, always expanding the city with the shortest distance first (greedy)
         while (!pq.isEmpty()) {
-            //Gets the current city from pq
+            //Gets the current city from pq and removes it from the priority queue
             Node current = pq.poll();
             String currentCity = current.city;
             // If current city is the end city (the city we wanted to reach) we can break out of the algo

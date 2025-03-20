@@ -105,6 +105,11 @@ public class DijkstraTest {
     }
 
     @Test
+    void testDijkstraRealistic(){
+
+    }
+
+    @Test
     void testDijkstraPerformance() {
         AirlineGraph graph;
         graph = new AirlineGraph();
