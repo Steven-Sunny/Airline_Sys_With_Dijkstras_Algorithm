@@ -114,6 +114,7 @@ public class DijkstraTest {
         }
         List<Double> times = new ArrayList<>();
         int[] testSizes = {1, 25, 250, 1000}; // Change these to match different input sizes
+        Dijkstra.findShortestPath(graph, "City1", "City" + 1, "cost");
 
         for (int size : testSizes) {
             long startTime = System.nanoTime();
