@@ -8,7 +8,7 @@ public class Dijkstra {
         // Used later on for path reconstruction; holds the optimal path
         Map<String, Flight> previousFlights = new HashMap<>();
         // A priority queue for always processing the city with the smallest known distance first, the most important
-        // part of the method
+        // part of the method. Using a priority queue is an optimization over a standard array.
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(n -> n.distance));
 
         // Initialize distances; all cities that are not starting have inf distance; start city has 0 distance
@@ -27,6 +27,7 @@ public class Dijkstra {
             //Gets the current city from pq and removes it from the priority queue
             Node current = pq.poll();
             String currentCity = current.city;
+            // Optimizations:
             // If current city is the end city (the city we wanted to reach) we can break out of the algo
             if (currentCity.equals(end)) break;
             // If a city has a longer (less optimal path) it is ignored and the loop is continued to the next iteration

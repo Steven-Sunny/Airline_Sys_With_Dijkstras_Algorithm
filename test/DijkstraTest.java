@@ -106,19 +106,53 @@ public class DijkstraTest {
 
     @Test
     void testDijkstraRealistic(){
+        AirlineGraph graph = new AirlineGraph();
 
+        graph.addFlight("NY", "PD", 450.0, 1);
+        graph.addFlight("NY", "LD", 500.0, 1);
+        graph.addFlight("PD", "LD", 100.0, 1);
+        graph.addFlight("PD", "TK", 850.0, 1);
+        graph.addFlight("TK", "PD", 850.0, 1);
+        graph.addFlight("LD", "DB", 600.0, 1);
+        graph.addFlight("PD", "DB", 550.0, 1);
+        graph.addFlight("DB", "TK", 100.0, 1);
+        graph.addFlight("TK", "DB", 100.0, 1);
+        graph.addFlight("TK", "LA", 900.0, 1);
+        graph.addFlight("LA", "TK", 900.0, 1);
+
+        long startTime = System.nanoTime();
+        Dijkstra.PathResult result = Dijkstra.findShortestPath(graph, "NY", "TK", "cost");
+        assertEquals(3, result.flights.size());
+        assertEquals("NY", result.flights.get(0).getSource());
+        assertEquals("PD", result.flights.get(0).getDestination());
+        assertEquals("PD", result.flights.get(1).getSource());
+        assertEquals("DB", result.flights.get(1).getDestination());
+        assertEquals("DB", result.flights.get(2).getSource());
+        assertEquals("TK", result.flights.get(2).getDestination());
+
+        for (Flight flight : result.flights) {
+            System.out.println(
+                    flight.getSource() + " -> " + flight.getDestination() +
+                            " (Cost: $" + String.format("%.2f", flight.getCost()) +
+                            ", Duration: " + flight.getDuration() + ")");
+        }
+
+        long duration = System.nanoTime() - startTime;
+        System.out.println("testMultipleFlightsBetweenSameCities executed in: " +
+                duration + " ns (" +
+                (duration / 1_000_000.0) + " ms)");
     }
 
     @Test
     void testDijkstraPerformance() {
         AirlineGraph graph;
         graph = new AirlineGraph();
-        // Populate graph with test flights (e.g., increasing input sizes)
-        for (int i = 1; i <= 1000; i++) { // Adjust 100 for larger inputs
+        // Populate graph with test flights
+        for (int i = 1; i <= 1000; i++) { // Adjust i upper bound for larger inputs
             graph.addFlight("City" + i, "City" + (i + 1), i * 10.5, i * 3);
         }
         List<Double> times = new ArrayList<>();
-        int[] testSizes = {1, 25, 250, 1000}; // Change these to match different input sizes
+        int[] testSizes = {1, 25, 250, 1000};
         Dijkstra.findShortestPath(graph, "City1", "City" + 1, "cost");
 
         for (int size : testSizes) {
