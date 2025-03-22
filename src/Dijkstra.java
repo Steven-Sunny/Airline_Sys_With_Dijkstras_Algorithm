@@ -5,10 +5,11 @@ public class Dijkstra {
         // Tracks the shortest known distance from the start city to each city (initialized later with inf distance
         // for all cities except start, which has 0)
         Map<String, Double> distances = new HashMap<>();
-        // Used later on for path reconstruction; holds the optimal path
+        // Used later on for path reconstruction; holds the optimal path to any already processed city
         Map<String, Flight> previousFlights = new HashMap<>();
         // A priority queue for always processing the city with the smallest known distance first, the most important
-        // part of the method. Using a priority queue is an optimization over a standard array.
+        // part of the method. Using a priority queue is an optimization over a standard array. Cities that were once
+        // a part of the pq will be removed once they have been processed, doubling as a visited flag.
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(n -> n.distance));
 
         // Initialize distances; all cities that are not starting have inf distance; start city has 0 distance

@@ -24,4 +24,5 @@ public class Flight {
     public String getDestination() { return destination; }
     public double getCost() { return cost; }
     public int getDuration() { return duration; }
+    public PriorityQueue<BookingRequest> getWaitingQueue() { return waitingQueue; }
 }

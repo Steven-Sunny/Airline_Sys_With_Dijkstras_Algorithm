@@ -138,15 +138,14 @@ public class DijkstraTest {
         }
 
         long duration = System.nanoTime() - startTime;
-        System.out.println("testMultipleFlightsBetweenSameCities executed in: " +
+        System.out.println("testDijkstraRealistic executed in: " +
                 duration + " ns (" +
                 (duration / 1_000_000.0) + " ms)");
     }
 
     @Test
     void testDijkstraPerformance() {
-        AirlineGraph graph;
-        graph = new AirlineGraph();
+        AirlineGraph graph = new AirlineGraph();
         // Populate graph with test flights
         for (int i = 1; i <= 1000; i++) { // Adjust i upper bound for larger inputs
             graph.addFlight("City" + i, "City" + (i + 1), i * 10.5, i * 3);
@@ -172,5 +171,23 @@ public class DijkstraTest {
 //        assertTrue(times.get(2) <= times.get(3));
 //        These lines of assertations are too finicky and depend on way too many factors to be a reliable test case
 //        Uncomment these and the lines related to times to run the assertations
+    }
+
+    @Test
+    void testbookSeats(){
+        AirlineGraph graph = new AirlineGraph();
+        graph.addFlight("A", "B", 1.0, 1);
+        Dijkstra.PathResult path = Dijkstra.findShortestPath(graph, "A", "B" , "cost");
+        Flight flight = path.flights.getFirst();
+        flight.bookSeat(new BookingRequest("Great Customer", 1000));
+        PriorityQueue<BookingRequest> copy = new PriorityQueue<>(flight.getWaitingQueue());
+        while (!copy.isEmpty()) {
+            BookingRequest booking = copy.poll();
+            System.out.print("Customer Name: " + booking.getCustomerId() + "\nBooking ID: " + booking.getBookingTime());
+        }
+        copy = flight.getWaitingQueue();
+        BookingRequest booking = copy.poll();
+        assertEquals("Great Customer", booking.getCustomerId());
+        assertEquals(1000, booking.getBookingTime());
     }
 }
