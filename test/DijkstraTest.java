@@ -151,7 +151,7 @@ public class DijkstraTest {
         for (int i = 1; i <= 1000; i++) { // Adjust i upper bound for larger inputs
             graph.addFlight("City" + i, "City" + (i + 1), i * 10.5, i * 3);
         }
-        List<Double> times = new ArrayList<>();
+        //List<Double> times = new ArrayList<>();
         int[] testSizes = {1, 25, 250, 1000};
         Dijkstra.findShortestPath(graph, "City1", "City" + 1, "cost");
 
@@ -161,14 +161,16 @@ public class DijkstraTest {
             long endTime = System.nanoTime();
 
             double elapsedTime = (endTime - startTime) / 1_000_000.0; // Convert to milliseconds
-            times.add(elapsedTime);
+            //times.add(elapsedTime);
 
             System.out.println("Input Size: " + size + ", Time Taken: " + elapsedTime + " ms");
         }
 
-        // Ensure that time increases as input size increases (basic validation)
-        assertTrue(times.get(0) <= times.get(1));
-        assertTrue(times.get(1) <= times.get(2));
-        assertTrue(times.get(2) <= times.get(3));
+//        Ensure that time increases as input size increases (basic validation)
+//        assertTrue(times.get(0) <= times.get(1));
+//        assertTrue(times.get(1) <= times.get(2));
+//        assertTrue(times.get(2) <= times.get(3));
+//        These lines of assertations are too finicky and depend on way too many factors to be a reliable test case
+//        Uncomment these and the lines related to times to run the assertations
     }
 }
