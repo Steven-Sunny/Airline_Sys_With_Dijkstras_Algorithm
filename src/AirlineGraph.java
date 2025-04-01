@@ -4,6 +4,10 @@ public class AirlineGraph {
     private final Map<String, List<Flight>> adjacencyList = new HashMap<>();
 
     public void addFlight(String source, String destination, double cost, int duration) {
+        if(cost<=0||duration<=0){
+            System.out.println("Zero or negative cost or duration, flight cannot be added");
+            return;
+        }
         Flight flight = new Flight(source, destination, cost, duration);
         adjacencyList.computeIfAbsent(source, k -> new ArrayList<>()).add(flight);
         //Adds a new flight attached to a destination, if there are no flights, it adds a new arraylist

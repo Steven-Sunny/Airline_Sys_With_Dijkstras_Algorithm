@@ -35,6 +35,14 @@ public class DijkstraTest {
     }
 
     @Test
+    void testNegativeInputs(){
+        AirlineGraph graph = new AirlineGraph();
+        graph.addFlight("A", "B", -1.0, -1);
+        Dijkstra.PathResult resultCost = Dijkstra.findShortestPath(graph, "A", "B", "cost");
+        assertNull(resultCost.flights);
+    }
+
+    @Test
     void testIndirectPathCheaper() {
 
         AirlineGraph graph = new AirlineGraph();
