@@ -23,6 +23,18 @@ public class DijkstraTest {
     }
 
     @Test
+    void testLoopFlight() {
+
+        AirlineGraph graph = new AirlineGraph();
+        graph.addFlight("A", "A", 100.0, 2);
+
+        Dijkstra.PathResult resultCost = Dijkstra.findShortestPath(graph, "A", "A", "cost");
+        assertNull(resultCost.flights);
+        resultCost = Dijkstra.findShortestPath(graph, "A", "A", "cost");
+        assertNull(resultCost.flights);
+    }
+
+    @Test
     void testIndirectPathCheaper() {
 
         AirlineGraph graph = new AirlineGraph();
