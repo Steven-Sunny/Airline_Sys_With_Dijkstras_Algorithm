@@ -84,7 +84,7 @@ public class Main {
             System.out.println(
                     flight.getSource() + " -> " + flight.getDestination() +
                             " (Cost: $" + String.format("%.2f", flight.getCost()) +
-                            ", Duration: " + flight.getDuration() + " min, Seats Available: " + ")");
+                            ", Duration: " + flight.getDuration() + ")");
 
         }
         System.out.println("Total " +

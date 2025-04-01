@@ -7,7 +7,7 @@ public class AirlineGraph {
         Flight flight = new Flight(source, destination, cost, duration);
         adjacencyList.computeIfAbsent(source, k -> new ArrayList<>()).add(flight);
         //Adds a new flight attached to a destination, if there are no flights, it adds a new arraylist
-        //using computeIfAbsent, a method of Map class in Java
+        //using computeIfAbsent, a method of Map class in Java. Uses lambda syntax(->) introduced in Java 8+
     }
 
     public List<Flight> getFlightsFrom(String city) {
