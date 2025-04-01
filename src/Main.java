@@ -44,7 +44,7 @@ public class Main {
         System.out.print("Destination City: ");
         String destination = scanner.nextLine().trim();
 
-        System.out.print("Cost: ");//negative values still get through
+        System.out.print("Cost: ");
         double cost = scanner.nextDouble();
 
         System.out.print("Duration (minutes): ");
