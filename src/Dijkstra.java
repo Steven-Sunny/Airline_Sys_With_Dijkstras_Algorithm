@@ -13,7 +13,7 @@ public class Dijkstra {
      * @param graph A graph that is an instance of AirlineGraph.java, includes cities and the connecting flights
      * @param start The name of the source city
      * @param end The name of the end city
-     * @param criteria
+     * @param criteria The criteria selected for weights (cost/duration)
      * @return An object PathResult that holds a list of flights needed to be taken (from reconstuctPath)
      *         and the sum of all the weights in the path
     */
