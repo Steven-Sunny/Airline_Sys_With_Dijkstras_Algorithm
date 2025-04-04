@@ -50,6 +50,15 @@ public class Main {
         System.out.print("Duration (minutes): ");
         int duration = scanner.nextInt();
 
+        //prevents users from adding an invalid cost or duration
+        while (cost <=0 || duration <=0){
+            System.out.println("Invalid cost or duration!");
+            System.out.print("Cost: ");
+            cost = scanner.nextDouble();
+            System.out.print("Duration (minutes): ");
+            duration = scanner.nextInt();
+        }
+
         scanner.nextLine();  // Consume newline
 
         graph.addFlight(source, destination, cost, duration);
