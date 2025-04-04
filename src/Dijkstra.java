@@ -9,7 +9,7 @@ public class Dijkstra {
         Map<String, Flight> previousFlights = new HashMap<>();
         // A priority queue for always processing the city with the smallest known distance first, the most important
         // part of the method. Using a priority queue is an optimization over a standard array. Cities that were once
-        // a part of the pq will be removed once they have been processed, doubling as a visited flag.
+        // a part of the pq will be popped once they have been processed, doubling as a visited flag.
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(n -> n.distance));
 
         // Initialize distances; all cities that are not starting have inf distance; start city has 0 distance
