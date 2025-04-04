@@ -128,6 +128,7 @@ public class Main {
         }
 
         // Display the total cost or duration based on optimization criteria
+        // Uses ternary operators
         System.out.println("Total " +
                 (criteria.equals("cost") ? "Cost" : "Duration") + ": " +
                 (criteria.equals("cost") ? "$" + currentRoute.total : currentRoute.total + " minutes"));
