@@ -1,5 +1,9 @@
-//Each instance of the flight class has a priority queue attached to self-manage bookings
 import java.util.*;
+
+/**
+ * Flight class for the Airline Reservation System
+ * Each instance of the flight class has a priority queue attached to self-manage bookings
+ */
 public class Flight {
     private String source;
     private String destination;
@@ -12,7 +16,8 @@ public class Flight {
         this.destination = destination;
         this.cost = cost;
         this.duration = duration;
-        this.waitingQueue = new PriorityQueue<>(Comparator.comparing(BookingRequest::getBookingTime)); // Defines a new Priority Queue that is ordered based on booking time
+        // Defines a new Priority Queue that is ordered based on booking time
+        this.waitingQueue = new PriorityQueue<>(Comparator.comparing(BookingRequest::getBookingTime));
     }
 
     public void bookSeat(BookingRequest request) { // Books a seat

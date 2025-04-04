@@ -1,6 +1,22 @@
 import java.util.*;
+
+/**
+ * Dijkstra class for the Airline Reservation System
+ * Provides shortest path finding for flights from a starting city to an end city
+ */
 public class Dijkstra {
-    //The main method for finding the shortest path from a start city to an end city
+
+    /** This is the main algorithm
+     * The main method for finding the shortest path from a start city to an end city
+     * Uses Dijkstra's algorithm to find the path with the least weight
+     *
+     * @param graph A graph that is an instance of AirlineGraph.java, includes cities and the connecting flights
+     * @param start The name of the source city
+     * @param end The name of the end city
+     * @param criteria
+     * @return An object PathResult that holds a list of flights needed to be taken (from reconstuctPath)
+     *         and the sum of all the weights in the path
+    */
     public static PathResult findShortestPath(AirlineGraph graph, String start, String end, String criteria) {
         // Tracks the shortest known distance from the start city to each city (initialized later with inf distance
         // for all cities except start, which has 0)
@@ -14,19 +30,14 @@ public class Dijkstra {
 
         // Initialize distances; all cities that are not starting have inf distance; start city has 0 distance
         for (String city : graph.getCities()) {
-            // MAX_VALUE is a large number, might as well be infinite
-            distances.put(city, Double.MAX_VALUE);
+            distances.put(city, Double.MAX_VALUE); // MAX_VALUE is a large number, might as well be infinite
         }
-        // Start city has 0 distance
-        distances.put(start, 0.0);
-        // Enqueue start city into the priority queue to start
-        pq.add(new Node(start, 0.0));
+        distances.put(start, 0.0); // Start city has 0 distance
+        pq.add(new Node(start, 0.0)); // Enqueue start city into the priority queue to start
 
-        // This is the main Dijkstra algorithm
         // Priority queue pq drives this algorithm, always expanding the city with the shortest distance first (greedy)
         while (!pq.isEmpty()) {
-            //Gets the current city from pq and removes it from the priority queue
-            Node current = pq.poll();
+            Node current = pq.poll(); // Gets the current city from pq and removes it from the priority queue
             String currentCity = current.city;
             // Optimizations:
             // If current city is the end city (the city we wanted to reach) we can break out of the algo
@@ -53,42 +64,40 @@ public class Dijkstra {
 
                 // If a new, shorter distance is found, update path information
                 if (newDist < distances.get(neighbour)) {
-                    // Update shortest distance
-                    distances.put(neighbour, newDist);
-                    // Track the flight used to reach this city
-                    previousFlights.put(neighbour, flight);
-                    // Add the neighbour to the priority queue
-                    pq.add(new Node(neighbour, newDist));
+                    distances.put(neighbour, newDist); // Update shortest distance
+                    previousFlights.put(neighbour, flight); // Track the flight used to reach this city
+                    pq.add(new Node(neighbour, newDist)); // Add the neighbour to the priority queue
                 }
             }
         }
 
         // Calls reconstruct path for building a list of flights that get from start to end cities
-        List<Flight> path = reconstructPath(previousFlights, start, end);
         // Returns a pathing for the shortest path if there is a potential path
+        List<Flight> path = reconstructPath(previousFlights, start, end);
         double total;
         if(path != null){
             total = distances.get(end);
         }else{
-            // Return 0 if the path is empty (The distance is 0)
-            total = 0.0;
+            total = 0.0; // Return 0 if the path is empty (The distance is 0)
         }
         // Returns a pathResult object that includes a lists of flights you need to take to get to your destination
         return new PathResult(path, total);
     }
 
-    // Helper method for path reconstruction; builds the path backwards from end to start using previousFlights
+    /**
+     * Helper method for path reconstruction
+     * builds the path backwards from end to start using previousFlights
+     *
+     * @return in order List of flights needed to be taken to get from start to end cities
+     */
     private static List<Flight> reconstructPath(Map<String, Flight> previousFlights, String start, String end) {
-        // List for Flights, stores the flights needed to reach the end city
-        List<Flight> path = new ArrayList<>();
-        // Stores the first city needed to reconstruct the path end to start
-        String currentCity = end;
+        List<Flight> path = new ArrayList<>(); // List for Flights, stores the flights needed to reach the end city
+        String currentCity = end; // Stores the first city needed to reconstruct the path end to start
         // Loops through all cities in previousFlights
         while (previousFlights.containsKey(currentCity)) {
-            // Get the flight object from previousFlights
-            Flight flight = previousFlights.get(currentCity);
-            // Add the flight obtained to the list of path
-            path.addFirst(flight);
+
+            Flight flight = previousFlights.get(currentCity); // Get the flight object from previousFlights
+            path.addFirst(flight); // Add the flight obtained to the list of path
             // Get the next starting city using the current city; set current city to next city
             currentCity = flight.getSource();
         }
@@ -101,23 +110,25 @@ public class Dijkstra {
         }
     }
 
-    // Helper class for cities in the graph; represents a city (just a convenient object format) and its distance
-    // from the original starting city
+     /**
+      * Helper class for cities in the graph
+      * represents a city (just a convenient object format) and its distance from the original starting city
+      */
     static class Node {
-        String city;
-        // Distance stores the currently known shortest distance from the start city
-        double distance;
+        String city; //Stores the city name
+        double distance; // Distance stores the currently known shortest distance from the start city
         // Constructors to build a Node instance
         Node(String city, double distance) { this.city = city; this.distance = distance; }
     }
 
-    // Helper class that acts as a data container for the shortest path that was found
+    /**
+     * Helper class that acts as a data container for the shortest path of flights that was found
+     */
     public static class PathResult {
         // An ordered list that stores the shortest list of flights needed to get to the end city
         // This is a path that was reconstructed by the reconstructPath method, ensuring it has the shortest distance
         public final List<Flight> flights;
-        // The final sum of all the weights in the path
-        public final double total;
+        public final double total; // The final sum of all the weights in the path
         // Constructors to build a PathResult instance
         PathResult(List<Flight> flights, double total) { this.flights = flights; this.total = total; }
     }
