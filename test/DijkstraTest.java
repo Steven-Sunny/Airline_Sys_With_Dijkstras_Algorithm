@@ -313,8 +313,9 @@ public class DijkstraTest {
         // Get another copy of the queue and verify booking details
         copy = flight.getWaitingQueue();
         BookingRequest booking = copy.poll();
-        // Verify customer name
+        // Verify booking is not null; prevent crashing
         assert booking != null;
+        // Verify customer name
         assertEquals("Great Customer", booking.getCustomerId());
         // Verify booking time
         assertEquals(1000, booking.getBookingTime());
