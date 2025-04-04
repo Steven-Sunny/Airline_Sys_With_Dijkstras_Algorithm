@@ -32,7 +32,7 @@ public class AirlineGraph {
         // Add the flight to the adjacency list
         // If the source city doesn't exist in the map yet, create a new list for it
         // Uses computeIfAbsent, a method of Map class in Java introduced in Java 8+
-        adjacencyList.computeIfAbsent(source, k -> new ArrayList<>()).add(flight);
+        adjacencyList.computeIfAbsent(source, _ -> new ArrayList<>()).add(flight);
     }
 
     /**

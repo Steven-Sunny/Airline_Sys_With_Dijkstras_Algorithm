@@ -314,6 +314,7 @@ public class DijkstraTest {
         copy = flight.getWaitingQueue();
         BookingRequest booking = copy.poll();
         // Verify customer name
+        assert booking != null;
         assertEquals("Great Customer", booking.getCustomerId());
         // Verify booking time
         assertEquals(1000, booking.getBookingTime());

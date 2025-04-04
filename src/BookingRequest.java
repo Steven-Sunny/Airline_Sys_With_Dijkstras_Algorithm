@@ -3,8 +3,8 @@
  * Stores simple information about the customer who is booking and the time they booked at
  */
 public class BookingRequest {
-    private String customerId;
-    private long bookingTime;
+    private final String customerId;
+    private final long bookingTime;
 
     public BookingRequest(String customerId, long bookingTime) {
         this.customerId = customerId;

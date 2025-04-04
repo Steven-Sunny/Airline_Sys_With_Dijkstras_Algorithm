@@ -5,10 +5,10 @@ import java.util.*;
  * Each instance of the flight class has a priority queue attached to self-manage bookings
  */
 public class Flight {
-    private String source;
-    private String destination;
-    private double cost;
-    private int duration;
+    private final String source;
+    private final String destination;
+    private final double cost;
+    private final int duration;
     private final PriorityQueue<BookingRequest> waitingQueue;
 
     public Flight(String source, String destination, double cost, int duration) {
